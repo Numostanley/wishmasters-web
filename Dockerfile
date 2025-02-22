@@ -4,13 +4,10 @@ FROM node:18 as build
 # Set working directory
 WORKDIR /app
 
-# Install Yarn
-RUN npm install -g yarn
-
 # Copy package files first (for caching)
 COPY package.json yarn.lock ./
 
-# Install dependencies
+# Install dependencies using Yarn (already available in the image)
 RUN yarn install
 
 # Copy the rest of the app files
