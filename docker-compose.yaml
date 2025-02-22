@@ -9,22 +9,14 @@ services:
     env_file:
       - .env
     restart: on-failure
-    volumes:
-      - ./media:/app/media  # Ensure media files persist
-      - ./static:/app/static # Ensure static files persist
-      - ./dist:/app/dist     # Mount built files for Nginx
 
   nginx:
     image: nginx:latest
     ports:
       - "80:80"
     volumes:
-      - ./default.conf.template:/etc/nginx/conf.d/default.conf.template
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./start-nginx.sh:/start-nginx.sh
-      - ./media:/media  # Serve media files via Nginx
-      - ./static:/static
-      - ./dist:/usr/share/nginx/html  # Serve Vue app
     entrypoint: [ "/bin/bash", "/start-nginx.sh" ]
     depends_on:
       - web
