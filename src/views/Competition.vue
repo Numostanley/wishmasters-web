@@ -128,7 +128,7 @@ const handleSubmitEntry = () => {
 
       <div class="flex items-center gap-2">
         <img
-          :src="competition?.image_url"
+          :src="competition?.image"
           :alt="competition?.name"
           class="size-40 object-cover object-center group-hover:scale-105 transition-all duration-300 ease-in-out"
         />
