@@ -16,7 +16,6 @@ COPY . .
 RUN chmod +x start-nginx.sh
 
 # Build the Vue.js application
-RUN yarn build
+RUN yarn yarn dev
 
-# Expose the build directory as a volume
-VOLUME /app/dist
+EXPOSE 5173
