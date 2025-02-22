@@ -4,7 +4,7 @@ FROM node:18 as build
 # Set working directory
 WORKDIR /app
 
-RUN chmod +x entrypoint.sh
+RUN chmod +x start-nginx.sh
 
 # Install Yarn
 RUN npm install -g yarn
