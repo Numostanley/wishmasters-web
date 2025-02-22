@@ -4,8 +4,6 @@ FROM node:18 as build
 # Set working directory
 WORKDIR /app
 
-RUN chmod +x start-nginx.sh
-
 # Install Yarn
 RUN npm install -g yarn
 
@@ -17,6 +15,8 @@ RUN yarn install
 
 # Copy the rest of the app files
 COPY . .
+
+RUN chmod +x start-nginx.sh
 
 # Build the Vue.js application
 RUN yarn build
