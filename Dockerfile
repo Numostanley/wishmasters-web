@@ -16,6 +16,6 @@ COPY . .
 RUN chmod +x start-nginx.sh
 
 # Build the Vue.js application
-RUN yarn yarn dev
+RUN yarn dev
 
 EXPOSE 5173
