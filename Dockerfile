@@ -1,20 +1,37 @@
-# Use an official Node.js image for building the app
-FROM node:18 as build
+# Stage 1: Build the frontend
+FROM node:18 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files first (for caching)
+# Copy package files first for better caching
 COPY package.json yarn.lock ./
 
-# Install dependencies using Yarn (already available in the image)
-RUN yarn install
+# Install dependencies
+RUN yarn install --frozen-lockfile
 
-# Copy the rest of the app files
+# Copy the rest of the application files
 COPY . .
 
-RUN chmod +x start-nginx.sh
+# Build the application
+RUN yarn build
 
-EXPOSE 5173
+# Stage 2: Serve built files using Nginx
+FROM nginx:latest
 
-CMD ["yarn", "dev", "--host"]
+# Set working directory in Nginx container
+WORKDIR /usr/share/nginx/html
+
+# Remove default Nginx static files
+RUN rm -rf ./*
+
+# Copy built frontend from previous stage
+COPY --from=build /app/dist .
+
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
